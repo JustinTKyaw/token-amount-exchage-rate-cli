@@ -1,5 +1,6 @@
-import { Transaction } from "../model/csv.model";
+import { Transaction } from "../model/transaction.model";
 
 export interface ISpecification {
-    getTransaction(tnx: Transaction)
+    isSatisfied(tnx: Transaction) : boolean;
+    isUsed(): boolean;
 }

@@ -1,7 +1,7 @@
-import { Transaction } from "../../model/csv.model";
+import { Transaction } from "../../model/transaction.model";
 import { ISpecification } from "../ISpecification.interface";
 
-class DateSpecification implements ISpecification {
+export class DateSpecification implements ISpecification {
 
     private timestamp: string;
 
@@ -9,8 +9,16 @@ class DateSpecification implements ISpecification {
         this.timestamp = timestamp;
     }
 
-    getTransaction(tnx: Transaction) {
+    isUsed(): boolean {
         try{
+            return this.timestamp == undefined ? false : true;
+        }
+        catch(error){throw new Error("Method not implemented.")};
+    }
+
+    isSatisfied(tnx: Transaction) {
+        try{
+            console.log('hello')
             return tnx.timestamp == this.timestamp
         }
         catch(error){throw error}

@@ -1,14 +1,19 @@
-import Parser from '@gregoranders/csv';
-import * as fs from 'fs-extra';
-
+import * as fs from 'fs';
+const { parse } = require("csv-parse");
 
 export class ReadCSVUtil {
-    static ReadCSV = (filename: string) => {
-        const data = fs.readFileSync(filename, 'utf8');
-        console.log(data)
-        const parser = new Parser();
-        const rows = parser.parse('a,b,c\n1,2,3\n4,5,6');
-        console.log(parser.json);
+    static ReadCSV = async (filename: string) => {
+            
+        let readStream = fs.createReadStream(filename)
+        .pipe(parse({ delimiter: ",", from_line: 2 }))
+
+        var rows: string[] = [];
+        const readPromise = new Promise((resolve, reject)=>{
+            readStream.on('data', (row: any) => rows.push(row))
+            readStream.on('end', (row: any) => resolve(rows))
+        })
+
+        return readPromise;
     }
 }
 
