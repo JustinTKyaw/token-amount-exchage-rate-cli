@@ -1,30 +1,47 @@
+import { TokenDetail } from "../model/tokenDetail.model";
+import { TokenList } from "../model/tokens.model";
 import { Transaction, TRANSACTION_TYPE } from "../model/transaction.model";
+import { TransactionArray } from "../model/transactionArr.model";
+import { HTTPService } from "./http.services";
 
 export class CalculateService {
 
-    async getRemainAmount(tnxs: Transaction[])
+    private httpService: HTTPService;
+
+    constructor(httpService: HTTPService)
     {
-        // Get the total withdraw amount
-        var totalWithdrawAmountArr = await ((await this.filterByTnxType(tnxs, TRANSACTION_TYPE.WITHDRAWL)).map((wdTypeTnx) => { return parseFloat(wdTypeTnx.amount.toString()) }));
-        var totalWithdrawAmount = totalWithdrawAmountArr.reduce((a, b) => a + b, 0);
-
-        // Get the total deposit amount
-        var totalDepositAmountArr = await ((await this.filterByTnxType(tnxs, TRANSACTION_TYPE.DEPOSIT)).map((dpTypeTnx) => { return parseFloat(dpTypeTnx.amount.toString()) }));
-        var totalDepositAmount = totalDepositAmountArr.reduce((a, b) => a + b, 0);
-
-        // Calcluate the Total amount (Total_Deposit - Total_Withdraw = Total_Remain)
-        return totalDepositAmount - totalWithdrawAmount
+        this.httpService = httpService;
     }
 
-    async getTotalCoinUnit(tnxs: Transaction[]){
-        return Array.from(new Set(await tnxs.map((tnx) =>{ return tnx.token })))
-    }
+    async getRemainAmount(tnxs: TransactionArray) : Promise<TokenList>
+    {
+        var tokenList: TokenList = new TokenList()
+        var coinList = await tnxs.getTotalCoinUnit();
+        var tokenDetailList: TokenDetail[] = [];
 
-    private async filterByTnxType(tnxs: Transaction[], TNXTYPE: TRANSACTION_TYPE){
-        return await tnxs.filter((tnx) => {
-            if(tnx.transaction_type == TNXTYPE) {
-                return tnx.amount
-            };
-        })
+        //Request prices information
+        var httpResponse = await this.httpService.getCryptocomparePrices(coinList);
+        
+        // Construct the token detail
+        for(const coin of coinList) {
+            // Get the total withdraw amount on each coin
+            var totalWithdrawAmountArr = await ((await tnxs.getTransactionsByTnxType(TRANSACTION_TYPE.WITHDRAWL, coin)).map((wdTypeTnx) => { return parseFloat(wdTypeTnx.amount.toString()) }));
+
+            // // Get the total deposit amount on each coin
+            var totalDepositAmountArr = await ((await tnxs.getTransactionsByTnxType(TRANSACTION_TYPE.DEPOSIT, coin)).map((dpTypeTnx) => { return parseFloat(dpTypeTnx.amount.toString()) }));
+
+            var totalWithdrawAmount = totalWithdrawAmountArr.reduce((a, b) => a + b, 0);
+            var totalDepositAmount = totalDepositAmountArr.reduce((a, b) => a + b, 0);
+
+            var tokenDetail = new TokenDetail(
+                totalDepositAmount - totalWithdrawAmount, // Calcluate the Total amount (Total_Deposit - Total_Withdraw = Total_Remain)
+                coin,
+                httpResponse[coin].USD
+            );
+            tokenDetailList.push(tokenDetail);
+        }
+
+        tokenList.setTokenList(tokenDetailList);
+        return tokenList;
     }
 }

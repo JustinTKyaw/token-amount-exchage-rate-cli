@@ -1,26 +1,32 @@
 import { Transaction, TRANSACTION_TYPE } from "../model/transaction.model";
+import { TransactionArray } from "../model/transactionArr.model";
 import { ISpecification } from "../specification/ISpecification.interface";
 
 export class TransactionFilter
 {
-    filter(tnxs: Transaction[], spec: ISpecification){
-        return tnxs.filter(tnx => spec.isSatisfied(tnx))
+    private spec: ISpecification;
+
+    constructor(spec: ISpecification)
+    {
+        this.spec = spec;
     }
 
-    async testfilter(spec: ISpecification, data: any){
+    async filter(tnxArray: TransactionArray, data: any){
         var tnxs: Transaction[] = [];
+        
         for(const raw of data){
             var tnx: Transaction = new Transaction(
-                raw[0],
-                raw[1] == "DEPOSIT" ? TRANSACTION_TYPE.DEPOSIT : TRANSACTION_TYPE.WITHDRAWL,
-                raw[2],
-                raw[3]
+                raw.timestamp,
+                raw.transaction_type == "DEPOSIT" ? TRANSACTION_TYPE.DEPOSIT : TRANSACTION_TYPE.WITHDRAWL,
+                raw.token,
+                raw.amount
             )
 
             tnxs.push(tnx);
         }
         console.log(`[+] Total Transaction Count => ${tnxs.length}`)
         
-        return tnxs.filter(x => spec.isSatisfied(x));
+        tnxArray.setTransactions(await tnxs.filter(x => this.spec.isSatisfied(x)));
+        return tnxArray;
     }
 }
