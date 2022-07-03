@@ -1,3 +1,5 @@
+const FLOAT_PRECISION = 2;
+
 export class TokenDetail {
     private totalTokenAmount: number;
     private price: number;
@@ -13,9 +15,9 @@ export class TokenDetail {
         this.tokenUnit = tokenUnit;
     }
 
-    getTotalTokenAmount() {return this.totalTokenAmount};
+    getTotalTokenAmount() {return (this.totalTokenAmount).toFixed(FLOAT_PRECISION)};
     getTokenUnit() {return this.tokenUnit};
-    getTotalPrices() {return this.totalTokenAmount * this.price}
+    getTotalPrices() { return (this.totalTokenAmount * this.price).toFixed(FLOAT_PRECISION)}
 
     setTotalTokenAmount(total: number){this.totalTokenAmount = total};
     setPrice(price: number) {this.price = price};

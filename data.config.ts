@@ -1,1 +1,0 @@
-export const DATA_FILE_PATH = "data/transactions.csv";

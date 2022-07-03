@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as dotenv from 'dotenv';
 
 export class HTTPCryptoService {
 
@@ -6,10 +7,11 @@ export class HTTPCryptoService {
 
     constructor(
         header: any = {
-            Accept: 'application/json',
-            Authorization: `Apikey a1b0d4cb7bc41399ebeee2c3ca1ef3b35959f4c46cbb603c83153b253ab8e339` 
+            Accept: 'application/json'
         }
     ) {
+        dotenv.config();
+        header.Authorization = `Apikey ${process.env.API_KEY}`
         this.header = header;
     }
 

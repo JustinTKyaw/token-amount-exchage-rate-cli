@@ -14,8 +14,6 @@ export class ReadCSVUtil {
     }
 
     async readCSV(spec: ISpecification) {
-
-        var rowss: string[][] = []
         var tnxs: Transaction[] = [];
             
         let readStream = fs.createReadStream(this.filepath, {highWaterMark: CHUNK_SIZE})   
@@ -34,7 +32,9 @@ export class ReadCSVUtil {
                 if(spec.isSatisfied(tnx)) tnxs.push(tnx);                
             })
             readStream.on('end', (row: any) => {
-                resolve(new TransactionArray(tnxs))
+                var tnxArray = new TransactionArray(tnxs)
+                tnxs = []
+                resolve(tnxArray);
             })
         })
 

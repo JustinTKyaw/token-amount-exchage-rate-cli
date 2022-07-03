@@ -1,15 +1,4 @@
-import { ReadCSVUtil } from "./utils/readCsv.util";
-import * as path from 'path'
-import { TransactionFilter } from "./filter/transaction.filter";
-import { TokenSpecification } from "./specification/tokenSpec/token.specification";
-import { DateSpecification } from "./specification/dateSpec/date.specification";
-import { MultiCretiaSpecification } from "./specification/multiSpec/multiCretia.specification";
-import { CalculateService } from "./services/calculation.service";
-import { HTTPCryptoService } from "./services/http.services";
-import { TransactionArray } from "./model/transactionArr.model";
-import { TokenList } from "./model/tokens.model";
 import moment from 'moment';
-import { ISpecification } from "./specification/ISpecification.interface";
 
 const commander = require('commander');
 const showBanner = require('node-banner');
@@ -32,6 +21,7 @@ export class CLI {
         // Setup the commands
         commander
         .version('1.0.0', '-v, --version')
+        .description('CLI tools to check with the exchange rate.')
         .usage('[OPTIONS]...')
         .requiredOption('-f, --filepath <value>', 'Source of data file path')
         .option('-t, --token <value>', 'Given a token, return the latest portfolio value for that token in USD')
