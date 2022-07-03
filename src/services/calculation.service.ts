@@ -2,13 +2,13 @@ import { TokenDetail } from "../model/tokenDetail.model";
 import { TokenList } from "../model/tokens.model";
 import { Transaction, TRANSACTION_TYPE } from "../model/transaction.model";
 import { TransactionArray } from "../model/transactionArr.model";
-import { HTTPService } from "./http.services";
+import { HTTPCryptoService } from "./http.services";
 
 export class CalculateService {
 
-    private httpService: HTTPService;
+    private httpService: HTTPCryptoService;
 
-    constructor(httpService: HTTPService)
+    constructor(httpService: HTTPCryptoService)
     {
         this.httpService = httpService;
     }

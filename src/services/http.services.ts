@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-enum HTTP_METHOD {GET, POST}
-
-export class HTTPService {
+export class HTTPCryptoService {
 
     private header: any;
 

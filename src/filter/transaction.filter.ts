@@ -1,4 +1,3 @@
-import { Transaction, TRANSACTION_TYPE } from "../model/transaction.model";
 import { TransactionArray } from "../model/transactionArr.model";
 import { ISpecification } from "../specification/ISpecification.interface";
 
@@ -11,22 +10,12 @@ export class TransactionFilter
         this.spec = spec;
     }
 
-    async filter(tnxArray: TransactionArray, data: any){
-        var tnxs: Transaction[] = [];
-        
-        for(const raw of data){
-            var tnx: Transaction = new Transaction(
-                raw.timestamp,
-                raw.transaction_type == "DEPOSIT" ? TRANSACTION_TYPE.DEPOSIT : TRANSACTION_TYPE.WITHDRAWL,
-                raw.token,
-                raw.amount
-            )
+    async filter(datasources: any){
 
-            tnxs.push(tnx);
-        }
-        console.log(`[+] Total Transaction Count => ${tnxs.length}`)
-        
-        tnxArray.setTransactions(await tnxs.filter(x => this.spec.isSatisfied(x)));
-        return tnxArray;
+        var data: TransactionArray = await datasources(this.spec);
+
+        console.log(`[+] Selected Transaction Count => ${data.getTransactions().length}`)
+
+        return data;
     }
 }
