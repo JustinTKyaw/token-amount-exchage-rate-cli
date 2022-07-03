@@ -55,7 +55,7 @@ The responsibilities of `main` controller is to prepare the CLI configuration an
 
 **Prepare CLI configuration**
 
-![image-20220703200104096](.\img\image-20220703200104096.png)
+![image-20220703200104096](./img/image-20220703200104096.png)
 
 **Create specification and call the filtering service.**
 
@@ -63,11 +63,11 @@ You can implement new specification according to new domain logic in here, witho
 
 And also you can implement or replace with new `data`source module in parameters of filter. 
 
-![image-20220703203324828](.\img\image-20220703203324828.png)
+![image-20220703203324828](./img/image-20220703203324828.png)
 
 **Call calculation service after filtered the transaction**
 
-![image-20220703200348187](.\img\image-20220703200348187.png)
+![image-20220703200348187](./img/image-20220703200348187.png)
 
 
 
@@ -93,7 +93,7 @@ Then run with
 jay@JHOME:~/Blockchain/Interview$ ./pftcli --help
 ```
 
-![image-20220703203932736](.\img\image-20220703203932736.png)
+![image-20220703203932736](./img/image-20220703203932736.png)
 
 
 
@@ -103,7 +103,7 @@ jay@JHOME:~/Blockchain/Interview$ ./pftcli --help
 jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/data/transactions.csv
 ```
 
-![image-20220703204314923](.\img\image-20220703204314923.png)
+![image-20220703204314923](./img/image-20220703204314923.png)
 
 
 
@@ -113,7 +113,7 @@ jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/dat
 jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/data/transactions.csv -t ETH
 ```
 
-![image-20220703204536557](.\img\image-20220703204536557.png)
+![image-20220703204536557](./img/image-20220703204536557.png)
 
 
 
@@ -123,7 +123,7 @@ jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/dat
 jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/data/transactions.csv -d 25-10-2019
 ```
 
-![image-20220703205105246](.\img\image-20220703205105246.png)
+![image-20220703205105246](./img/image-20220703205105246.png)
 
 
 
@@ -133,7 +133,7 @@ jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/dat
 jay@JHOME:~/Blockchain/Interview$ ./pftcli -f /home/jay/Blockchain/Interview/data/transactions.csv -d 25-10-2019 -t ETH
 ```
 
-![image-20220703205440618](.\img\image-20220703205440618.png)
+![image-20220703205440618](./img/image-20220703205440618.png)
 
 # Drawback
 
